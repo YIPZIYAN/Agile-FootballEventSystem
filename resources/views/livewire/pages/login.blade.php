@@ -1,3 +1,30 @@
+<?php
+
+use App\Livewire\Forms\LoginForm;
+use App\Providers\RouteServiceProvider;
+use Illuminate\Support\Facades\Session;
+use Livewire\Attributes\Layout;
+use Livewire\Volt\Component;
+
+new #[Layout('layouts.guest')] class extends Component
+{
+    public LoginForm $form;
+
+    /**
+     * Handle an incoming authentication request.
+     */
+    public function login(): void
+    {
+        $this->validate();
+
+        $this->form->authenticate();
+
+        Session::regenerate();
+
+        $this->redirectIntended(default: RouteServiceProvider::HOME, navigate: true);
+    }
+}; ?>
+
 <div>
     <!--Session status-->
     <x-auth-session-status class="mb-4" :status="session('status')" />
