@@ -9,7 +9,8 @@ use Illuminate\Validation\Rules;
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
 
-new #[Layout('layouts.guest')] class extends Component {
+new #[Layout('layouts.guest')] class extends Component
+{
     public string $name = '';
     public string $email = '';
     public string $password = '';
@@ -32,7 +33,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
         //Auth::login($user);
 
-        $this->redirect(RouteServiceProvider::LOGIN, navigate: true);
+        $this->redirectIntended(RouteServiceProvider::LOGIN, navigate: true);
     }
 }; ?>
 

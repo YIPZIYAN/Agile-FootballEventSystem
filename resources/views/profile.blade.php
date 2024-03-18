@@ -18,8 +18,6 @@
                     <livewire:profile.update-password-form />
                 </div>
             </div>
-
-           
         </div>
     </div>
 </x-app-layout>
