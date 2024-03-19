@@ -51,7 +51,7 @@
         </div>
 
         <div>
-            <x-input-label for="ic" :value="__('IC/No')" />
+            <x-input-label for="ic" :value="__('IC/No (Without \'-\')')" />
             <i class="text-red-500">**You only can update your IC/No once!</i>
             @if ($user->ic == null)
                 <x-text-input id="ic" type="text" class="mt-1 block w-full" :value="old('ic', $user->ic)" required
