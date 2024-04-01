@@ -26,10 +26,10 @@ class StoreEventRequest extends FormRequest
             'description' => 'required|string',
             'startDate' => 'required|date|after:today',
             'endDate' => 'required|date|after_or_equal:startDate',
-            'noOfTeams' => 'required|integer|min:2',
+            'noOfTeams' => 'required|integer|min:2|max:32',
             'location' => 'required|string|max:255',
             'deadline' => 'required|date|before:startDate|after_or_equal:today',
-            'fees' => 'required|decimal:2|min:0',
+            'fees' => 'required|decimal:2|min:0|max:9999.99',
         ];
     }
 }
