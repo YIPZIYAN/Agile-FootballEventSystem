@@ -22,7 +22,7 @@ final class EventTable extends PowerGridComponent
     public bool $multiSort = true;
     public int $perPage = 10;
     public array $perPageValues = [0, 5, 10, 20, 50];
-    
+
 
     public function setUp(): array
     {
@@ -99,9 +99,7 @@ final class EventTable extends PowerGridComponent
 
     public function filters(): array
     {
-        return [
-            Filter::datepicker('startDate', 'startDate'),
-        ];
+        return [];
     }
 
     #[\Livewire\Attributes\On('edit')]
