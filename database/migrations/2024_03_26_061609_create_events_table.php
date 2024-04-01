@@ -13,8 +13,14 @@ return new class extends Migration
     {
         Schema::create('events', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('description');
+            $table->string('title');
+            $table->longText('description');
+            $table->date('startDate');
+            $table->date('endDate');
+            $table->integer('noOfTeams');
+            $table->longText('location');
+            $table->date('deadline');
+            $table->decimal('fees',8,2);
             $table->softDeletes();
             $table->timestamps();
         });
