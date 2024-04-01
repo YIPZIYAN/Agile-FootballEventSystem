@@ -11,6 +11,14 @@ class Event extends Model
 
     protected $fillable = [
         'name',
+        'title',
         'description',
+        'startDate',
+        'endDate',
+        'noOfTeams',
+        'location',
+        'deadline',
+        'fees',
+    
     ];
 }
