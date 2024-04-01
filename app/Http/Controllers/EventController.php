@@ -95,4 +95,14 @@ class EventController extends Controller
 
         return Redirect::route('event.index');
     }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function archived()
+    {
+        return view('events_creation.archived')->with([
+            'events' => Event::onlyTrashed()->get()
+        ]);
+    }
 }
