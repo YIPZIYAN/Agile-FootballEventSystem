@@ -83,6 +83,13 @@
 
                         </form>
 
+                        <form method="post" action="{{ route('event.destroy',$event) }}" class="mt-6 space-y-6">
+                            @csrf
+                            @method('delete')
+                            <div class="flex items-center gap-4">
+                                <x-danger-button>{{ __('Archive') }}</x-danger-button>
+                            </div>
+                        </form>
                     </section>
                 </div>
             </div>
