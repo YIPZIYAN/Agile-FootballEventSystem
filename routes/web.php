@@ -31,7 +31,7 @@ Route::middleware('auth')->group(function () {
 
     // Event Management
     Route::resource('/event', EventController::class);
-    Route::get('/event/archived',[EventController::class,'archived'])->name('event.archived');
+    Route::get('/event-archived',[EventController::class,'archived'])->name('event.archived');
 
 });
 

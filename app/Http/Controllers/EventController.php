@@ -101,7 +101,7 @@ class EventController extends Controller
      */
     public function archived()
     {
-        return view('events_creation.archived')->with([
+        return view('events_creation.archived',[
             'events' => Event::onlyTrashed()->get()
         ]);
     }
