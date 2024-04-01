@@ -30,7 +30,7 @@ final class EventTable extends PowerGridComponent
             Footer::make()
                 ->showPerPage()
                 ->showRecordCount(),
-                
+
         ];
     }
 
@@ -75,7 +75,9 @@ final class EventTable extends PowerGridComponent
             Column::make('No Of Teams', 'noOfTeams')
                 ->sortable(),
             Column::make('Location', 'location')
-                ->sortable(),
+                ->sortable()
+                ->searchable(),
+
             Column::make('Deadline', 'deadline')
                 ->sortable(),
             Column::make('Fees', 'fees')
@@ -84,8 +86,8 @@ final class EventTable extends PowerGridComponent
                 ->sortable(),
             Column::make('Updated at', 'updated_at')
                 ->sortable(),
-            
-            Column::action('Action')
+
+            Column::action('')
         ];
     }
 
@@ -103,11 +105,11 @@ final class EventTable extends PowerGridComponent
     public function actions(Event $row): array
     {
         return [
-            Button::add('edit')
-                ->slot('Edit: ' . $row->id)
-                ->id()
+            Button::add('view')
+                //->slot('Edit: ' . $row->id)
+                ->slot('View')
                 ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
-                ->dispatch('edit', ['rowId' => $row->id])
+                ->route('event.edit', ['event' => $row->id])
         ];
     }
 
