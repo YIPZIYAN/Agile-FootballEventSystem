@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use App\Http\Requests\StoreEventRequest;
 use App\Http\Requests\UpdateEventRequest;
+use App\Models\User;
+use Illuminate\Support\Facades\Redirect;
+
+use function Ramsey\Uuid\v1;
 
 class EventController extends Controller
 {
@@ -21,7 +25,7 @@ class EventController extends Controller
      */
     public function create()
     {
-        //
+        return view('events_creation.create');
     }
 
     /**
@@ -29,7 +33,17 @@ class EventController extends Controller
      */
     public function store(StoreEventRequest $request)
     {
-        //
+        $validatedData = $request->validated();
+
+        $event = Event::create($validatedData);
+
+        if ($event) {
+            toastr()->success("Football Event Created Successfully");
+        } else {
+            toastr()->error("Failed to create Football Event");
+        }
+        
+        return Redirect::route('event.index');
     }
 
     /**
