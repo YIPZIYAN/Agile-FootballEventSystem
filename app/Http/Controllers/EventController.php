@@ -42,7 +42,7 @@ class EventController extends Controller
         } else {
             toastr()->error("Failed to create Football Event");
         }
-        
+
         return Redirect::route('event.index');
     }
 
@@ -59,7 +59,9 @@ class EventController extends Controller
      */
     public function edit(Event $event)
     {
-        return view('dashboard');
+        return view('events_creation.edit', [
+            'event' => $event,
+        ]);
     }
 
     /**
@@ -67,7 +69,17 @@ class EventController extends Controller
      */
     public function update(UpdateEventRequest $request, Event $event)
     {
-        //
+        $validatedData = $request->validated();
+
+        $event->update($validatedData);
+
+        if ($event->wasChanged()) {
+            toastr()->success("Football Event Updated Successfully");
+        } else {
+            toastr()->info("No changes were made to the Football Event");
+        }
+
+        return Redirect::route('event.index');
     }
 
     /**
@@ -75,6 +87,6 @@ class EventController extends Controller
      */
     public function destroy(Event $event)
     {
-        //
+
     }
 }
