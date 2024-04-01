@@ -87,6 +87,12 @@ class EventController extends Controller
      */
     public function destroy(Event $event)
     {
+        if ($event->delete()) {
+            toastr()->success("Football Event Archived Successfully");
+        } else {
+            toastr()->error("Failed to archive Football Event");
+        }
 
+        return Redirect::route('event.index');
     }
 }
