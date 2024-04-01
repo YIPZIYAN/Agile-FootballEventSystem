@@ -19,6 +19,22 @@ class EventTable extends DataTableComponent
     {
         return [
             Column::make("Id", "id")
+                ->sortable()
+                ->hideIf(false),
+            Column::make("Title", "title")
+                ->sortable()
+                ->searchable(),
+            Column::make("Start Date", "startDate")
+                ->sortable(),
+            Column::make("End Date", "endDate")
+                ->sortable(),
+            Column::make("No Of Teams", "noOfTeams")
+                ->sortable(),
+            Column::make("Location", "location")
+                ->sortable(),
+            Column::make("Deadline", "deadline")
+                ->sortable(),
+            Column::make("Fees", "fees")
                 ->sortable(),
             Column::make("Created at", "created_at")
                 ->sortable(),
