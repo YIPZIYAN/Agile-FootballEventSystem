@@ -7,28 +7,35 @@ use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
-use PowerComponents\LivewirePowerGrid\Exportable;
-use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\Footer;
 use PowerComponents\LivewirePowerGrid\Header;
 use PowerComponents\LivewirePowerGrid\PowerGrid;
+use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
+use PowerComponents\LivewirePowerGrid\PowerGridColumns;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
-use PowerComponents\LivewirePowerGrid\Traits\WithExport;
 
 final class EventTable extends PowerGridComponent
 {
 
     public bool $showFilters = true;
     public bool $multiSort = true;
+    public int $perPage = 10;
+    public array $perPageValues = [0, 5, 10, 20, 50];
+
+
     public function setUp(): array
     {
+        $this->persist(['columns', 'filters']);
 
         return [
 
-            Header::make()->showSearchInput(),
+            Header::make()
+                ->showToggleColumns()
+                ->showSearchInput(),
+
             Footer::make()
-                ->showPerPage()
+                ->showPerPage($this->perPage, $this->perPageValues)
                 ->showRecordCount(),
 
         ];
@@ -62,9 +69,9 @@ final class EventTable extends PowerGridComponent
     public function columns(): array
     {
         return [
+            Column::action(''),
             Column::make('Id', 'id')
-                ->sortable()
-                ->withCount('Total', false, true),
+                ->sortable(),
             Column::make('Title', 'title')
                 ->sortable()
                 ->searchable(),
@@ -77,7 +84,6 @@ final class EventTable extends PowerGridComponent
             Column::make('Location', 'location')
                 ->sortable()
                 ->searchable(),
-
             Column::make('Deadline', 'deadline')
                 ->sortable(),
             Column::make('Fees', 'fees')
@@ -87,7 +93,7 @@ final class EventTable extends PowerGridComponent
             Column::make('Updated at', 'updated_at')
                 ->sortable(),
 
-            Column::action('')
+
         ];
     }
 

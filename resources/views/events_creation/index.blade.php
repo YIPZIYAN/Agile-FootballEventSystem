@@ -7,13 +7,9 @@
     </x-slot>
 
     <div class="mx-24 my-4">
-        <a href={{ route('event.create') }}>
-            <x-primary-button>{{ __('Create Event') }}</x-primary-button>
-        </a>
-        <a>
-            <x-danger-button class="ml-4">{{ __('Archived List') }}</x-danger-button>
-        </a>
-        <livewire:event-table />
+        <x-primary-button class="mb-4">{{ __('Create Event') }}</x-primary-button>
+        <x-danger-button class="ml-4">{{ __('Archived List') }}</x-primary-button>
+            <livewire:event-table />
     </div>
 
 
