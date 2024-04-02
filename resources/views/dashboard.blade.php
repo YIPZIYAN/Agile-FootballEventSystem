@@ -11,7 +11,7 @@
                 <div class="sm:self-end col-span-12 sm:col-span-6">
                     <!-- Card -->
                     <a class="group relative block rounded-xl overflow-hidden dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
-                        href="#">
+                        href={{route('event.index')}}>
                         <div class="aspect-w-12 aspect-h-7 sm:aspect-none rounded-xl overflow-hidden">
                             <img class="group-hover:scale-105 transition-transform duration-500 ease-in-out rounded-xl w-full object-cover"
                                 src="https://images.unsplash.com/photo-1606868306217-dbf5046868d2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3481&q=80"
