@@ -69,7 +69,7 @@ final class EventTable extends PowerGridComponent
     public function columns(): array
     {
         return [
-            Column::action(''),
+            Column::action('Action'),
             Column::make('Id', 'id')
                 ->sortable(),
             Column::make('Title', 'title')
