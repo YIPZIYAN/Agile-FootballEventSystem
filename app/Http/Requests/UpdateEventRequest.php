@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Models\Event;
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateEventRequest extends FormRequest
@@ -23,7 +24,12 @@ class UpdateEventRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required|string|max:255|unique:'.Event::class,
+            'title' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('events')->ignore($this->event),
+            ],
             'description' => 'required|string',
             'startDate' => 'required|date|after:today',
             'endDate' => 'required|date|after_or_equal:startDate',
