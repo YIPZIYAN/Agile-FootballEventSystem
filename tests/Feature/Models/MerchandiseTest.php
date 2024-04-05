@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Models;
 
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Http;
@@ -15,7 +16,9 @@ class MerchandiseTest extends TestCase
      */
     public function test_create_merchandise_form_can_be_rendered(): void
     {
-        $response = $this->get('/merchandise');
+        $user = User::findOrFail(1)->first();
+
+        $response = $this->actingAs($user)->get('/merchandise/create');
 
         $response->assertStatus(200);
     }
@@ -27,7 +30,9 @@ class MerchandiseTest extends TestCase
 
     public function test_merchandise_can_be_added()
     {
-        $response = $this->post('/merchandise', [
+        $user = User::findOrFail(1)->first();
+
+        $response = $this->actingAs($user)->post('/merchandise', [
             'name' => 'Test item',
             'desc' => 'This is a description',
             'price' => 10.20,
@@ -44,7 +49,9 @@ class MerchandiseTest extends TestCase
      */
     public function test_merchandise_cannot_be_added()
     {
-        $response = $this->post('/merchandise', [
+        $user = User::findOrFail(1)->first();
+
+        $response = $this->actingAs($user)->post('/merchandise', [
             'name' => 123,
             'desc' => 123,
             'price' => '100.20',

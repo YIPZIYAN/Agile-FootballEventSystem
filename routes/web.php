@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\MerchandiseController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -33,6 +34,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('/event', EventController::class);
     Route::get('/event-archived',[EventController::class,'archived'])->name('event.archived');
 
+    //Merchandise
+    Route::resource('/merchandise',MerchandiseController::class);
 });
 
 require __DIR__.'/auth.php';

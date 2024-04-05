@@ -21,7 +21,7 @@ class MerchandiseController extends Controller
      */
     public function create()
     {
-        //
+        return view('merchandise.create');
     }
 
     /**
