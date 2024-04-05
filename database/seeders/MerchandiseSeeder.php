@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Merchandise;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -12,6 +13,6 @@ class MerchandiseSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        Merchandise::factory(10)->create();
     }
 }
