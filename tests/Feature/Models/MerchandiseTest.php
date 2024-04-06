@@ -57,6 +57,7 @@ class MerchandiseTest extends TestCase
         $response->assertValid()
             ->assertStatus(302) //redirect
             ->assertRedirect(route('merchandise.index'));
+        
     }
 
     /**
