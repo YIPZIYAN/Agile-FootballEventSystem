@@ -94,7 +94,7 @@ class EventController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Archived Event List
      */
     public function archived()
     {

@@ -10,7 +10,7 @@
         <a href={{ route('merchandise.create') }}>
             <x-primary-button class="mb-4">{{ __('Add New Merchandise') }}</x-primary-button>
         </a>
-        <a href={{ route('merchandise.create') }}>
+        <a href={{ route('merchandise.archived') }}>
             <x-danger-button class="ml-4">{{ __('Archived List') }}</x-primary-button>
         </a>
         <livewire:merchandise-table />

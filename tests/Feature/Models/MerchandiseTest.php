@@ -4,10 +4,7 @@ namespace Tests\Feature\Models;
 
 use App\Models\Merchandise;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
@@ -191,9 +188,9 @@ class MerchandiseTest extends TestCase
 
         $merchandise = Merchandise::factory()->create();
 
-        $response = $this->actingAs($user)->delete('merchandise.delete', [$merchandise->id]);
+        $response = $this->actingAs($user)->delete(route('merchandise.destroy',$merchandise));
 
-        $response->assertStatus(200)
+        $response->assertStatus(302)
             ->assertTrue($merchandise->trashed());
     }
 }

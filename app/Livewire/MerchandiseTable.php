@@ -18,15 +18,24 @@ use PowerComponents\LivewirePowerGrid\Traits\WithExport;
 
 final class MerchandiseTable extends PowerGridComponent
 {
-    use WithExport;
+
+    public bool $showFilters = true;
+    public bool $multiSort = true;
+    public int $perPage = 10;
+    public array $perPageValues = [0, 5, 10, 20, 50];
+
 
     public function setUp(): array
     {
+        $this->persist(['columns', 'filters']);
 
         return [
-            Header::make()->showSearchInput(),
+            Header::make()
+                ->showToggleColumns()
+                ->showSearchInput(),
+
             Footer::make()
-                ->showPerPage()
+                ->showPerPage($this->perPage, $this->perPageValues)
                 ->showRecordCount(),
         ];
     }
@@ -51,16 +60,13 @@ final class MerchandiseTable extends PowerGridComponent
                 ->searchable(),
 
             Column::make('Price', 'price')
-                ->sortable()
-                ->searchable(),
+                ->sortable(),
 
             Column::make('Stock quantity', 'stock_quantity')
-                ->sortable()
-                ->searchable(),
+                ->sortable(),
 
             Column::make('Category', 'category')
-                ->sortable()
-                ->searchable(),
+                ->sortable(),
 
             Column::make('Created at', 'created_at')
                 ->sortable(),
@@ -75,20 +81,13 @@ final class MerchandiseTable extends PowerGridComponent
         return [];
     }
 
-    #[\Livewire\Attributes\On('edit')]
-    public function edit($rowId): void
-    {
-        $this->js('alert(' . $rowId . ')');
-    }
-
     public function actions(Merchandise $row): array
     {
         return [
-            Button::add('edit')
-                ->slot('Edit: ' . $row->id)
-                ->id()
+            Button::add('view')
+                ->slot('View')
                 ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
-                ->dispatch('edit', ['rowId' => $row->id])
+                ->route('merchandise.edit', ['merchandise' => $row])
         ];
     }
 
