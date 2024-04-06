@@ -6,6 +6,6 @@
         </h2>
     </x-slot>
     @foreach ($merchandises as $merchandise)
-    <img src="{{'data:image/jpeg;base64,'.$merchandise->image}}" />
-      @endforeach
+        <img src="{{ 'data:image/jpeg;base64,' . $merchandise->image }}" />
+    @endforeach
 </x-app-layout>
