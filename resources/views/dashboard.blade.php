@@ -6,6 +6,7 @@
     </x-slot>
 
     <div class="py-12">
+        @role('admin')
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="grid sm:grid-cols-12 gap-6">
                 <div class="sm:self-end h-200 col-span-12 sm:col-span-6">
@@ -31,7 +32,7 @@
                 <div class="sm:self-end col-span-12 sm:col-span-6">
                     <!-- Card -->
                     <a class="group relative block rounded-xl overflow-hidden dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
-                        href="#">
+                        href={{route('merchandise.index')}}>
                         <div class="aspect-w-12 aspect-h-7 sm:aspect-none rounded-xl overflow-hidden">
                             <img class="group-hover:scale-105 transition-transform duration-500 ease-in-out rounded-xl w-full object-cover"
                                 src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRy6HOmOmqfumoGPLX2M8oEHaFYbu5S6Egw_tsnCukLRw&s"
@@ -49,5 +50,11 @@
                 <!-- End Col -->
             </div>
         </div>
+        @else
+        this is for customer only
+        @endrole
+
+
     </div>
+
 </x-app-layout>

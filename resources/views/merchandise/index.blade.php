@@ -5,7 +5,15 @@
             {{ __('Football Merchandise List') }}
         </h2>
     </x-slot>
-    @foreach ($merchandises as $merchandise)
-        <img src="{{ 'data:image/jpeg;base64,' . $merchandise->image }}" />
-    @endforeach
+
+    <div class="mx-24 my-4">
+        <a href={{ route('merchandise.create') }}>
+            <x-primary-button class="mb-4">{{ __('Add New Merchandise') }}</x-primary-button>
+        </a>
+        <a href={{ route('merchandise.create') }}>
+            <x-danger-button class="ml-4">{{ __('Archived List') }}</x-primary-button>
+        </a>
+        <livewire:merchandise-table />
+    </div>
+
 </x-app-layout>
