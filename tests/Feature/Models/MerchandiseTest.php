@@ -57,7 +57,7 @@ class MerchandiseTest extends TestCase
         $response->assertValid()
             ->assertStatus(302) //redirect
             ->assertRedirect(route('merchandise.index'));
-        
+
     }
 
     /**
@@ -191,7 +191,9 @@ class MerchandiseTest extends TestCase
 
         $response = $this->actingAs($user)->delete(route('merchandise.destroy',$merchandise));
 
-        $response->assertStatus(302)
-            ->assertTrue($merchandise->trashed());
+        $response->assertStatus(302);
+        $this->assertSoftDeleted('merchandises', [
+            'id' => $merchandise->id,
+        ]);
     }
 }
