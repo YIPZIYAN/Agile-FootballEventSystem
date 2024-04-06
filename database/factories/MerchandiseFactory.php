@@ -21,7 +21,7 @@ class MerchandiseFactory extends Factory
             'name' => fake()->word(),
             'description' => fake()->text(),
             'price' => fake()->randomFloat(2,10,6000),
-            'image' => Http::get(fake()->imageUrl())->body(),
+            'image' =>base64_encode(Http::get(fake()->imageUrl())),
             'stock_quantity' => fake()->numberBetween(20, 100),
             'category' => fake()->randomElement(['cap', 'bag', 'poster', 'other']),
         ];

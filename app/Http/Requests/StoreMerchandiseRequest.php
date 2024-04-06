@@ -11,7 +11,7 @@ class StoreMerchandiseRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,12 @@ class StoreMerchandiseRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => ['required','max:255'],
+            'description' => ['required'],
+            'price' => ['required','decimal:2','min:0','max:99999.99',],
+            'image' => ['required','image','mimes:jpg,jpeg,png'],
+            'stock_quantity' => ['required','numeric','min:0','max:99999'],
+            'category' => ['required','in:cap,poster,bag'],
         ];
     }
 }

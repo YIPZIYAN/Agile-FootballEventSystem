@@ -2,21 +2,69 @@
 
 namespace Tests\Feature\Models;
 
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class MerchandiseTest extends TestCase
 {
+
     /**
-     * A basic feature test example.
+     * A basic test example.
      */
-    public function test_example(): void
+    public function test_create_merchandise_form_can_be_rendered(): void
     {
-        $response = $this->get('/');
+        $user = User::findOrFail(1)->first();
+
+        $response = $this->actingAs($user)->get('/merchandise/create');
 
         $response->assertStatus(200);
     }
 
-    
+    /**
+     * Test adding merchandise with passed validation
+     *
+     */
+
+    public function test_merchandise_can_be_added()
+    {
+        $user = User::findOrFail(1)->first();
+        Storage::fake('avatars');
+
+        $response = $this->actingAs($user)->post('/merchandise', [
+            'name' => 'Test item',
+            'description' => 'This is a description',
+            'price' => '10.20',
+            'image' => UploadedFile::fake()->image('avatar.jpg'),
+            'stock_quantity' => 100,
+            'category' => 'cap',
+        ]);
+
+        $response->assertValid()
+        ->assertStatus(302) //redirect
+        ->assertRedirect(route('merchandise.index'));
+    }
+
+    /**
+     * Test adding merchandise with failed validation
+     */
+    public function test_merchandise_cannot_be_added()
+    {
+        $user = User::findOrFail(1)->first();
+
+        $response = $this->actingAs($user)->post('/merchandise', [
+            'name' => 123,
+            'description' => 123,
+            'price' => '100.2130',
+            'image' => 'abc',
+            'stock_quantity' => -100,
+            'category' => 'cap',
+        ]);
+
+        $response->assertInvalid(['price', 'image', 'stock_quantity']);
+    }
 }
