@@ -42,6 +42,8 @@ Route::group(['middleware' => ['role:admin', 'auth']], function () {
 
     //Merchandise
     Route::resource('/merchandise', MerchandiseController::class);
+    Route::get('/merchandise-archived', [MerchandiseController::class, 'archived'])->name('merchandise.archived');
+
 });
 
 

@@ -82,7 +82,13 @@ class MerchandiseController extends Controller
      */
     public function destroy(Merchandise $merchandise)
     {
-        //
+        if ($merchandise->delete()) {
+            toastr()->success("Football Merchandise Archived Successfully");
+        } else {
+            toastr()->error("Failed to archive Football Merchandise");
+        }
+
+        return Redirect::route('merchandise.index');
     }
 
     public function search(Request $request)
@@ -102,6 +108,16 @@ class MerchandiseController extends Controller
         return view('dashboard', [
             'merchandises' => $merchandise->get(),
             'is_search' => true,
+        ]);
+    }
+
+    /**
+     * Archived Event List
+     */
+    public function archived()
+    {
+        return view('merchandise.archived', [
+            'merchandises' => Merchandise::onlyTrashed()->get()
         ]);
     }
 }

@@ -5,10 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use App\Http\Requests\StoreEventRequest;
 use App\Http\Requests\UpdateEventRequest;
-use App\Models\User;
 use Illuminate\Support\Facades\Redirect;
-
-use function Ramsey\Uuid\v1;
 
 class EventController extends Controller
 {
@@ -97,7 +94,7 @@ class EventController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Archived Event List
      */
     public function archived()
     {
