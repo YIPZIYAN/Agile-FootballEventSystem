@@ -19,34 +19,37 @@
                         <form method="post" enctype="multipart/form-data"
                             action="{{ route('merchandise.update', $merchandise) }}" class="mt-6 space-y-6">
                             @csrf
-                            @method('post')
+                            @method('patch')
                             <div>
                                 <x-input-label for="name" :value="__('Name')" />
                                 <x-text-input id="name" name="name" type="text" class="mt-1 block w-full"
-                                    :value="old('name')" required autofocus />
+                                    :value="old('name', $merchandise->name)" required autofocus />
                                 <x-input-error class="mt-2" :messages="$errors->get('name')" />
                             </div>
 
                             <div>
                                 <x-input-label for="description" :value="__('Description')" />
                                 <x-textarea-input id="description" name="description" type="text"
-                                    class="mt-1 block w-full" required autofocus content="{{ old('description') }}" />
+                                    class="mt-1 block w-full" required autofocus
+                                    content="{{ old('description', $merchandise->description) }}" />
                                 <x-input-error class="mt-2" :messages="$errors->get('description')" />
                             </div>
 
                             <div>
                                 <x-input-label for="price (RM)" :value="__('Price')" />
                                 <x-text-input id="price" name="price" type="text" class="mt-1 block w-full"
-                                    :value="old('price')" required autofocus />
+                                    :value="old('price', $merchandise->price)" required autofocus />
                                 <x-input-error class="mt-2" :messages="$errors->get('price')" />
                             </div>
 
                             <div>
                                 <x-input-label for="image" :value="__('Upload Image')" />
-                                <input
+                                <img class="my-2 h-[250px] w-[250px]"
+                                    src="{{ 'data:image/jpeg;base64,' . $merchandise->image }}" id="imagePreview" />
+                                <input onchange="loadFile(event)"
                                     class="mt-1 block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
                                     aria-describedby="file_input_help" id="image" name="image"
-                                    :value="old('image')" type="file" required>
+                                    :value="old('image', $merchandise - > image)" type="file">
                                 <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">PNG, JPG
                                     or JPEG.</p>
                                 <x-input-error class="mt-2" :messages="$errors->get('image')" />
@@ -56,7 +59,7 @@
                             <div>
                                 <x-input-label for="stock_quantity" :value="__('Available Stock Quantity')" />
                                 <x-text-input id="stock_quantity" name="stock_quantity" type="number" min="0"
-                                    class="mt-1 block w-full" :value="old('stock_quantity')" required autofocus />
+                                    class="mt-1 block w-full" :value="old('stock_quantity', $merchandise->stock_quantity)" required autofocus />
                                 <x-input-error class="mt-2" :messages="$errors->get('stock_quantity')" />
                             </div>
 
@@ -64,12 +67,15 @@
                                 <x-input-label for="category" :value="__('Category')" />
                                 <select id="category" name="category" required
                                     class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                    <option {{ old('category') == null ? 'selected' : '' }}>Choose a cateogry</option>
-                                    <option {{ old('category') == 'cap' ? 'selected' : '' }} value="cap">Cap</option>
-                                    <option {{ old('category') == 'bag' ? 'selected' : '' }} value="bag">Bag</option>
-                                    <option {{ old('category') == 'poster' ? 'selected' : '' }} value="poster">Poster
+                                    <option {{ old('category', $merchandise->category) == 'cap' ? 'selected' : '' }}
+                                        value="cap">Cap</option>
+                                    <option {{ old('category', $merchandise->category) == 'bag' ? 'selected' : '' }}
+                                        value="bag">Bag</option>
+                                    <option {{ old('category', $merchandise->category) == 'poster' ? 'selected' : '' }}
+                                        value="poster">Poster
                                     </option>
-                                    <option {{ old('category') == 'other' ? 'selected' : '' }} value="other">Other
+                                    <option {{ old('category', $merchandise->category) == 'other' ? 'selected' : '' }}
+                                        value="other">Other
                                     </option>
                                 </select>
                                 <x-input-error class="mt-2" :messages="$errors->get('category')" />
@@ -137,4 +143,18 @@
             </div>
         </div>
     </div>
+    <script>
+        var loadFile = function(event) {
+            var input = event.target;
+            var file = input.files[0];
+            var type = file.type;
+            var output = document.getElementById('imagePreview');
+
+            output.src = URL.createObjectURL(event.target.files[0]);
+
+            output.onload = function() {
+                URL.revokeObjectURL(output.src) // free memory
+            }
+        };
+    </script>
 </x-app-layout>

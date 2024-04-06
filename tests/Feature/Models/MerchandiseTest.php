@@ -57,7 +57,6 @@ class MerchandiseTest extends TestCase
         $response->assertValid()
             ->assertStatus(302) //redirect
             ->assertRedirect(route('merchandise.index'));
-
     }
 
     /**
@@ -180,9 +179,83 @@ class MerchandiseTest extends TestCase
 
         $merchandise = Merchandise::factory()->create();
 
-        $response = $this->actingAs($user)->delete(route('merchandise.destroy',$merchandise));
+        $response = $this->actingAs($user)->delete(route('merchandise.destroy', $merchandise));
 
         $response->assertStatus(302);
         $this->assertSoftDeleted($merchandise);
+    }
+
+    /**
+     * Test view edit merchandise form
+     */
+    public function test_edit_merchandise_form_can_be_rendered()
+    {
+        $user = User::findOrFail(1);
+        $merchandise = Merchandise::factory()->create();
+
+        $response = $this->actingAs($user)->get(route('merchandise.edit', $merchandise));
+
+        $merchandise->forceDelete();
+        $response->assertStatus(200);
+    }
+
+    /**
+     * Test view merchandise list without authorizarion
+     */
+    public function test_edit_merchandise_form_cannot_be_accessed()
+    {
+        $user = User::findOrFail(2);
+        $merchandise = Merchandise::factory()->create();
+
+        $response = $this->actingAs($user)->get(route('merchandise.edit', $merchandise));
+
+        $merchandise->forceDelete();
+        $response->assertStatus(403);
+    }
+
+    /**
+     * Test update a merchandise with passed validation
+     *
+     */
+    public function test_merchandise_can_be_updated()
+    {
+        $user = User::findOrFail(1);
+        Storage::fake('avatars');
+        $merchandise = Merchandise::factory()->create();
+
+        $response = $this->actingAs($user)->patch(route('merchandise.update', $merchandise), [
+            'name' => 'updated Test item',
+            'description' => 'This is a updated description',
+            'price' => '100.10',
+            'stock_quantity' => 666,
+            'category' => 'cap',
+        ]);
+
+        $response->assertValid()
+            ->assertStatus(302) //redirect
+            ->assertRedirect(route('merchandise.index'));
+        $merchandise->forceDelete();
+    }
+
+
+    /**
+     * Test update a merchandise with failed validation
+     */
+    public function test_merchandise_cannot_be_updated()
+    {
+        $user = User::findOrFail(1);
+        $merchandise = Merchandise::factory()->create();
+
+        $response = $this->actingAs($user)->patch(route('merchandise.update', $merchandise), [
+            'name' => 123,
+            'description' => 123,
+            'price' => '100.2130',
+            'image' => 'abc',
+            'stock_quantity' => -100,
+            'category' => 'cap',
+        ]);
+
+        $response->assertInvalid(['price', 'image', 'stock_quantity']);
+        $merchandise->forceDelete();
     }
 }
