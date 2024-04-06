@@ -14,7 +14,7 @@ class MerchandiseTest extends TestCase
 {
 
     /**
-     * A basic test example.
+     * Test view create merchandise form as admin
      */
     public function test_create_merchandise_form_can_be_rendered(): void
     {
@@ -24,6 +24,18 @@ class MerchandiseTest extends TestCase
 
         $response->assertStatus(200);
     }
+
+    /*
+    * Test view create merchandise form without permission
+    */
+   public function test_create_merchandise_form_cannot_be_accessed(): void
+   {
+       $user = User::factory()->create();
+
+       $response = $this->actingAs($user)->get('/merchandise/create');
+
+       $response->assertStatus(403); //unauthorized
+   }
 
     /**
      * Test adding merchandise with passed validation
