@@ -19,6 +19,7 @@ return new class extends Migration
             $table->binary('image');
             $table->integer('stock_quantity');
             $table->string('category');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Models;
 
+use App\Models\Merchandise;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -125,6 +126,15 @@ class MerchandiseTest extends TestCase
     {
         $user = User::findOrFail(2);
 
+        $merchandise = Merchandise::create([
+            'name' => 123,
+            'description' => 123,
+            'price' => '100.2130',
+            'image' => 'abc',
+            'stock_quantity' => -100,
+            'category' => 'cap',
+        ]);
+
         $response = $this->actingAs($user)->post('/merchandise-search', [
             'search_query' => 'a'
         ]);
@@ -146,5 +156,44 @@ class MerchandiseTest extends TestCase
         ]);
 
         $response->assertStatus(200);
+    }
+
+    /**
+     * Test view archived merchandise list as admin
+     */
+    public function test_archived_merchandise_list_can_rendered()
+    {
+        $user = User::findOrFail(1);
+
+        $response = $this->actingAs($user)->get('/merchandise-archived');
+
+        $response->assertStatus(200);
+    }
+
+    /**
+     * Test view archived merchandise list without authentication
+     */
+    public function test_archived_merchandise_list_cannot_be_accessed()
+    {
+        $user = User::findOrFail(2);
+
+        $response = $this->actingAs($user)->get('/merchandise-archived');
+
+        $response->assertStatus(403);
+    }
+
+    /**
+     * Test archive a merchandise
+     */
+    public function test_archive_a_merchandise()
+    {
+        $user = User::findOrFail(1);
+
+        $merchandise = Merchandise::factory()->create();
+
+        $response = $this->actingAs($user)->delete('merchandise.delete', [$merchandise->id]);
+
+        $response->assertStatus(200)
+            ->assertTrue($merchandise->trashed());
     }
 }
