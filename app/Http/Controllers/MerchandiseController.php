@@ -66,7 +66,9 @@ class MerchandiseController extends Controller
      */
     public function edit(Merchandise $merchandise)
     {
-        //
+        return view('merchandise.edit',[
+            'merchandise' => $merchandise,
+        ]);
     }
 
     /**
