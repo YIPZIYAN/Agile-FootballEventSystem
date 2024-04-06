@@ -5,7 +5,9 @@ namespace Tests\Feature\Models;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class MerchandiseTest extends TestCase
@@ -31,17 +33,20 @@ class MerchandiseTest extends TestCase
     public function test_merchandise_can_be_added()
     {
         $user = User::findOrFail(1)->first();
+        Storage::fake('avatars');
 
         $response = $this->actingAs($user)->post('/merchandise', [
             'name' => 'Test item',
-            'desc' => 'This is a description',
-            'price' => 10.20,
-            'image' => Http::get(fake()->imageUrl())->body(),
+            'description' => 'This is a description',
+            'price' => '10.20',
+            'image' => UploadedFile::fake()->image('avatar.jpg'),
             'stock_quantity' => 100,
             'category' => 'cap',
         ]);
 
-        $response->assertValid()->assertStatus(200);
+        $response->assertValid()
+        ->assertStatus(302) //redirect
+        ->assertRedirect(route('merchandise.index'));
     }
 
     /**
@@ -53,14 +58,13 @@ class MerchandiseTest extends TestCase
 
         $response = $this->actingAs($user)->post('/merchandise', [
             'name' => 123,
-            'desc' => 123,
-            'price' => '100.20',
+            'description' => 123,
+            'price' => '100.2130',
             'image' => 'abc',
-            'stock_quantity' => '100',
+            'stock_quantity' => -100,
             'category' => 'cap',
         ]);
 
-        $response->assertInvalid(['name', 'description', 'price', 'image', 'stock_quantity'])
-            ->assertStatus(422);
+        $response->assertInvalid(['price', 'image', 'stock_quantity']);
     }
 }

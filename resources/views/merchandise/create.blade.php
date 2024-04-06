@@ -16,8 +16,8 @@
                                 {{ __('Football Merchandise Information') }}
                             </h2>
                         </header>
-
-                        <form method="post" action="{{ route('merchandise.store') }}" class="mt-6 space-y-6">
+                        <form method="post" enctype="multipart/form-data" action="{{ route('merchandise.store') }}"
+                            class="mt-6 space-y-6">
                             @csrf
                             @method('post')
                             <div>
@@ -49,6 +49,8 @@
                                     :value="old('image')" type="file" required>
                                 <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">PNG, JPG
                                     or JPEG.</p>
+                                <x-input-error class="mt-2" :messages="$errors->get('image')" />
+
                             </div>
 
                             <div>
@@ -60,14 +62,16 @@
 
                             <div>
                                 <x-input-label for="category" :value="__('Category')" />
-                                <select id="category"
+                                <select id="category" name="category" required
                                     class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                    <option selected>Choose a cateogry</option>
-                                    <option value="cap">Cap</option>
-                                    <option value="bag">Bag</option>
-                                    <option value="poster">Poster</option>
-                                    <option value="other">Other</option>
+                                    <option {{ old('category') == null ? 'selected' : '' }}>Choose a cateogry</option>
+                                    <option {{ old('category') == 'cap' ? 'selected' : '' }} value="cap">Cap</option>
+                                    <option {{ old('category') == 'bag' ? 'selected' : '' }} value="bag">Bag</option>
+                                    <option {{ old('category') == 'poster' ? 'selected' : '' }} value="poster">Poster</option>
+                                    <option {{ old('category') == 'other' ? 'selected' : '' }} value="other">Other</option>
                                 </select>
+                                <x-input-error class="mt-2" :messages="$errors->get('category')" />
+
                             </div>
 
                             <div class="flex items-center gap-4">

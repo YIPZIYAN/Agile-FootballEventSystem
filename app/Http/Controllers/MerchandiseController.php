@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Merchandise;
 use App\Http\Requests\StoreMerchandiseRequest;
 use App\Http\Requests\UpdateMerchandiseRequest;
+use Illuminate\Support\Facades\Redirect;
 
 class MerchandiseController extends Controller
 {
@@ -13,7 +14,9 @@ class MerchandiseController extends Controller
      */
     public function index()
     {
-        //
+        return view('merchandise.index',[
+            'merchandises' => Merchandise::all(),
+        ]);
     }
 
     /**
@@ -29,7 +32,24 @@ class MerchandiseController extends Controller
      */
     public function store(StoreMerchandiseRequest $request)
     {
-        //
+        $image = base64_encode(file_get_contents($request->file('image')->getRealPath()));
+
+        $merchandise = Merchandise::create([
+            'name' => $request->name,
+            'description' => $request->description,
+            'price' => $request->price,
+            'image' => $image,
+            'stock_quantity' => $request->stock_quantity,
+            'category' => $request->category,
+        ]);
+
+        if ($merchandise) {
+            toastr()->success("Football Merchandise Created Successfully");
+        } else {
+            toastr()->error("Failed to create Football Merchandise");
+        }
+
+        return Redirect::route('merchandise.index');
     }
 
     /**
