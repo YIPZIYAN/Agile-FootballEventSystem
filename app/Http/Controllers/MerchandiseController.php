@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Merchandise;
 use App\Http\Requests\StoreMerchandiseRequest;
 use App\Http\Requests\UpdateMerchandiseRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 
 class MerchandiseController extends Controller
@@ -14,7 +15,7 @@ class MerchandiseController extends Controller
      */
     public function index()
     {
-        return view('merchandise.index',[
+        return view('merchandise.index', [
             'merchandises' => Merchandise::all(),
         ]);
     }
@@ -82,5 +83,25 @@ class MerchandiseController extends Controller
     public function destroy(Merchandise $merchandise)
     {
         //
+    }
+
+    public function search(Request $request)
+    {
+        $merchandise = null;
+        if ($request->search_category == null && $request->search_query == null) {
+            $merchandise = Merchandise::orderByDesc('created_at');
+        } else if ($request->search_category == null) {
+            $merchandise = Merchandise::where('name', 'like', '%' . $request->search_query . '%')
+                ->orderByDesc('created_at');
+        } else {
+            $merchandise = Merchandise::where('name', 'like', '%' . $request->search_query . '%')
+                ->where('category', '=', $request->search_category)
+                ->orderByDesc('created_at');
+        }
+
+        return view('dashboard', [
+            'merchandises' => $merchandise->get(),
+            'is_search' => true,
+        ]);
     }
 }
