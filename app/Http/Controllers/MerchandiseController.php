@@ -71,12 +71,32 @@ class MerchandiseController extends Controller
         ]);
     }
 
+
     /**
      * Update the specified resource in storage.
      */
     public function update(UpdateMerchandiseRequest $request, Merchandise $merchandise)
     {
-        //
+        $image = null;
+        if ($request->hasFile('image')) {
+            $image = base64_encode(file_get_contents($request->file('image')->getRealPath()));
+        }
+        $merchandise->update([
+            'name' => $request->name,
+            'description' => $request->description,
+            'price' => $request->price,
+            'image' => $image == null ? $merchandise->image : $image,
+            'stock_quantity' => $request->stock_quantity,
+            'category' => $request->category,
+        ]);
+
+        if ($merchandise->wasChanged()) {
+            toastr()->success("Football Merchandise Updated Successfully");
+        } else {
+            toastr()->info("No changes were made to the Football Merchandise");
+        }
+
+        return Redirect::route('merchandise.index');
     }
 
     /**
