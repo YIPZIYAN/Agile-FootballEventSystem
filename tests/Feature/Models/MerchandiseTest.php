@@ -124,15 +124,6 @@ class MerchandiseTest extends TestCase
     {
         $user = User::findOrFail(2);
 
-        $merchandise = Merchandise::create([
-            'name' => 123,
-            'description' => 123,
-            'price' => '100.2130',
-            'image' => 'abc',
-            'stock_quantity' => -100,
-            'category' => 'cap',
-        ]);
-
         $response = $this->actingAs($user)->post('/merchandise-search', [
             'search_query' => 'a'
         ]);
@@ -192,8 +183,6 @@ class MerchandiseTest extends TestCase
         $response = $this->actingAs($user)->delete(route('merchandise.destroy',$merchandise));
 
         $response->assertStatus(302);
-        $this->assertSoftDeleted('merchandises', [
-            'id' => $merchandise->id,
-        ]);
+        $this->assertSoftDeleted($merchandise);
     }
 }
