@@ -45,8 +45,8 @@ class MerchandiseTest extends TestCase
         ]);
 
         $response->assertValid()
-        ->assertStatus(302) //redirect
-        ->assertRedirect(route('merchandise.index'));
+            ->assertStatus(302) //redirect
+            ->assertRedirect(route('merchandise.index'));
     }
 
     /**
@@ -66,5 +66,17 @@ class MerchandiseTest extends TestCase
         ]);
 
         $response->assertInvalid(['price', 'image', 'stock_quantity']);
+    }
+
+    /**
+     * Test view merchandise list
+     */
+    public function test_merchandise_list_can_be_view()
+    {
+        $user = User::findOrFail(1)->first();
+
+        $response = $this->actingAs($user)->get('/merchandise');
+
+        $response->assertStatus(200);
     }
 }
