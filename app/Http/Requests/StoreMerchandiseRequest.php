@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Merchandise;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreMerchandiseRequest extends FormRequest
@@ -22,12 +23,12 @@ class StoreMerchandiseRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'max:255'],
+            'name' => ['required', 'max:255', 'unique:' . Merchandise::class],
             'description' => ['required'],
             'price' => ['required', 'decimal:2', 'min:1.00', 'max:99999.99',],
             'image' => ['required', 'image', 'mimes:jpg,jpeg,png', 'max:1024'],
             'stock_quantity' => ['required', 'numeric', 'min:0', 'max:99999'],
-            'category' => ['required', 'in:cap,poster,bag'],
+            'category' => ['required', 'in:cap,poster,bag,other'],
         ];
     }
 }

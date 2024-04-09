@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateMerchandiseRequest extends FormRequest
@@ -23,12 +24,17 @@ class UpdateMerchandiseRequest extends FormRequest
     {
         return [
             //
-            'name' => ['required', 'max:255'],
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('merchandises')->ignore($this->merchandise),
+            ],
             'description' => ['required'],
             'price' => ['required', 'decimal:2', 'min:1.00', 'max:99999.99',],
             'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:1024'],
             'stock_quantity' => ['required', 'numeric', 'min:0', 'max:99999'],
-            'category' => ['required', 'in:cap,poster,bag'],
+            'category' => ['required', 'in:cap,poster,bag,other'],
         ];
     }
 }

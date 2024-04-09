@@ -18,14 +18,12 @@ class MerchandiseFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->word(),
+            'name' => fake()->unique()->word(),
             'description' => fake()->text(),
-            'price' => fake()->randomFloat(2,10,6000),
-            'image' =>base64_encode(Http::get(fake()->imageUrl())),
+            'price' => fake()->randomFloat(2, 10, 6000),
+            'image' => base64_encode(Http::get(fake()->imageUrl())),
             'stock_quantity' => fake()->numberBetween(20, 100),
             'category' => fake()->randomElement(['cap', 'bag', 'poster', 'other']),
         ];
     }
 }
-
-
