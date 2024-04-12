@@ -60,9 +60,12 @@
                             class="py-2 text-sm text-gray-700 dark:text-gray-200">
                             All categories
                         </option>
-                        <option {{ old('search_category') == 'cap' ? 'selected' : '' }}  value="cap" class="py-2 text-sm text-gray-700 dark:text-gray-200">Cap</option>
-                        <option {{ old('search_category') == 'poster' ? 'selected' : '' }}  value="poster" class="py-2 text-sm text-gray-700 dark:text-gray-200">Poster</option>
-                        <option {{ old('search_category') == 'bag' ? 'selected' : '' }}  value="bag" class="py-2 text-sm text-gray-700 dark:text-gray-200">Bag</option>
+                        <option {{ old('search_category') == 'cap' ? 'selected' : '' }} value="cap"
+                            class="py-2 text-sm text-gray-700 dark:text-gray-200">Cap</option>
+                        <option {{ old('search_category') == 'poster' ? 'selected' : '' }} value="poster"
+                            class="py-2 text-sm text-gray-700 dark:text-gray-200">Poster</option>
+                        <option {{ old('search_category') == 'bag' ? 'selected' : '' }} value="bag"
+                            class="py-2 text-sm text-gray-700 dark:text-gray-200">Bag</option>
                     </select>
 
                     <div class="relative w-full">
@@ -89,31 +92,31 @@
                     <h2 class="text-2xl font-extrabold tracking-tight text-gray-900">Football Merchandise List</h2>
                 @endisset
                 <div class="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-                    @empty($merchandises)
-                        <p>Merhcnadise List is Empty</p>
-                    @else
-                        @foreach ($merchandises as $merchandise)
-                            <div class="group relative">
-                                <div
-                                    class="w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 lg:h-80 lg:aspect-none">
-                                    <img src="{{ 'data:image/jpeg;base64,' . $merchandise->image }}"
-                                        class="w-full h-full object-center object-cover lg:w-full lg:h-full">
-                                </div>
-                                <div class="mt-4 flex justify-between">
-                                    <div>
-                                        <h3 class="text-sm text-gray-700">
-                                            {{ $merchandise->name }}
-                                        </h3>
-                                        <p class="uppercase mt-1 text-sm text-gray-500">{{ $merchandise->category }}</p>
-                                    </div>
-                                    <p class="text-sm font-medium text-gray-900">
-                                        RM {{ $merchandise->price }}
-                                    </p>
-                                </div>
+                    @forelse ($merchandises as $merchandise)
+                        <div class="group relative">
+                            <div
+                                class="w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 lg:h-80 lg:aspect-none">
+                                <img src="{{ 'data:image/jpeg;base64,' . $merchandise->image }}"
+                                    class="w-full h-full object-center object-cover lg:w-full lg:h-full">
                             </div>
-                        @endforeach
-                    @endempty
+                            <div class="mt-4 flex justify-between">
+                                <div>
+                                    <h3 class="text-sm text-gray-700">
+                                        {{ $merchandise->name }}
+                                    </h3>
+                                    <p class="uppercase mt-1 text-sm text-gray-500">{{ $merchandise->category }}</p>
+                                </div>
+                                <p class="text-sm font-medium text-gray-900">
+                                    RM {{ $merchandise->price }}
+                                </p>
+                            </div>
+                        </div>
+                    @empty
+                        <p>Merhcnadise List is Empty</p>
+                    @endforelse
                 </div>
+
+                {{-- hide paginator when search --}}
                 @isset($is_search)
                 @else
                     {{ $merchandises->links() }}
@@ -121,8 +124,6 @@
 
             </div>
         @endrole
-
-
     </div>
 
 </x-app-layout>
