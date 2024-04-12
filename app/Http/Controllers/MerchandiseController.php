@@ -66,7 +66,7 @@ class MerchandiseController extends Controller
      */
     public function edit(Merchandise $merchandise)
     {
-        return view('merchandise.edit',[
+        return view('merchandise.edit', [
             'merchandise' => $merchandise,
         ]);
     }
@@ -116,17 +116,26 @@ class MerchandiseController extends Controller
     public function search(Request $request)
     {
         $merchandise = null;
-        if ($request->search_category == null && $request->search_query == null) {
-            $merchandise = Merchandise::orderByDesc('created_at');
-        } else if ($request->search_category == null) {
-            $merchandise = Merchandise::where('name', 'like', '%' . $request->search_query . '%')
-                ->orderByDesc('created_at');
-        } else {
-            $merchandise = Merchandise::where('name', 'like', '%' . $request->search_query . '%')
-                ->where('category', '=', $request->search_category)
-                ->orderByDesc('created_at');
+
+        switch ($request->sort) {
+            case 'low':
+                $merchandise = Merchandise::orderBy('price')->orderByDesc('created_at');
+                break;
+            case 'high':
+                $merchandise = Merchandise::orderByDesc('price')->orderByDesc('created_at');
+                break;
+            default:
+                $merchandise = Merchandise::orderByDesc('created_at');
         }
 
+        if ($request->search_category != null || $request->search_query != null) {
+            if ($request->search_category == null) {
+                $merchandise->where('name', 'like', '%' . $request->search_query . '%');
+            } else {
+                $merchandise->where('name', 'like', '%' . $request->search_query . '%')
+                    ->where('category', '=', $request->search_category);
+            }
+        }
         return view('dashboard', [
             'merchandises' => $merchandise->get(),
             'is_search' => true,

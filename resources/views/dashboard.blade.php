@@ -82,7 +82,15 @@
                             <span class="sr-only">Search</span>
                         </button>
                     </div>
+
+
                 </div>
+                <label for="price" class="block m-2 text-sm font-medium text-gray-900 dark:text-white">Sort Price</label>
+                <select id="price" name="sort" class="bg-gray-50 border border-gray-300 text-gray-900 mb-6 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                  <option selected>None</option>
+                  <option value="low">From Lowest to Highest</option>
+                  <option value="high">From Highest to Lowest</option>
+                </select>
             </form>
 
             <div class="max-w-2xl bg-white mx-auto p-8 my-8 lg:max-w-7xl lg:px-8">
