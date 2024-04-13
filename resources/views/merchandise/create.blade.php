@@ -43,7 +43,8 @@
 
                             <div>
                                 <x-input-label for="image" :value="__('Upload Image')" />
-                                <input
+                                <img class="my-2 h-[250px] w-[250px]" id="imagePreview" />
+                                <input onchange="loadFile(event)"
                                     class="mt-1 block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
                                     aria-describedby="file_input_help" id="image" name="image"
                                     :value="old('image')" type="file" required>
@@ -84,4 +85,18 @@
             </div>
         </div>
     </div>
+    <script>
+        var loadFile = function(event) {
+            var input = event.target;
+            var file = input.files[0];
+            var type = file.type;
+            var output = document.getElementById('imagePreview');
+
+            output.src = URL.createObjectURL(event.target.files[0]);
+
+            output.onload = function() {
+                URL.revokeObjectURL(output.src) // free memory
+            }
+        };
+    </script>
 </x-app-layout>
